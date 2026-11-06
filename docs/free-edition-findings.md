@@ -19,5 +19,7 @@ Registro técnico de pruebas, límites encontrados en **Databricks Free Edition*
 ## Registro cronológico de hallazgos adicionales
 
 - **2026-11-05 (`SKY-003` — Integración de GitHub en Databricks Free Edition):** Al intentar hacer `Commit & Push` desde un Git folder en Databricks usando una cuenta vinculada de GitHub, el push falla con *"El enlace a tu cuenta de GitHub no tiene acceso"* hasta que se instala y autoriza explícitamente la **Databricks GitHub App** sobre el repositorio `skylake-databricks` (o se selecciona explícitamente el Fine-grained PAT con permiso `Contents: Read and write` en la pestaña *Settings* del Git folder).
+- **2026-11-05 (`SKY-004` — Creación de catálogo propio `skylake` en Unity Catalog):** `CREATE CATALOG IF NOT EXISTS skylake` ejecutado en el `Serverless Starter Warehouse` (2X-Small) funcionó directamente usando el almacenamiento gestionado por defecto del metastore en Free Edition, sin necesidad de recurrir al catálogo `workspace` por defecto.
+
 
 
