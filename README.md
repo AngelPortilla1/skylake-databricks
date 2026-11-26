@@ -19,20 +19,9 @@ Este proyecto demuestra la implementación de un Lakehouse moderno adaptado a la
 
 ## Arquitectura
 
-```text
-GitHub Actions (cron, cada 30 min)
-  │ llama a OpenSky con reintentos y sube el JSON crudo
-  ▼
-Volume skylake.bronze.landing (/opensky/states/*.json)
-  ▼
-┌────────── Un solo pipeline declarativo (límite de Free Edition) ──────────┐
-│ Bronze: streaming tables con read_files (Auto Loader)                     │
-│ Silver: limpieza, expectations, cuarentena, SCD1 (posiciones) y SCD2      │
-│ Gold:   modelo dimensional (Materialized Views), H3, métricas, anomalías  │
-└───────────────────────────────────────────────────────────────────────────┘
-  ▼
-Dashboard AI/BI + Genie Space · Job (cada 60 min) · alertas · ops.pipeline_runs
-```
+![Arquitectura de Datos de SkyLake](docs/arquitectura_excalidraw.jpg)
+
+> Versión vectorial editable en Excalidraw: [`docs/arquitectura.excalidraw`](docs/arquitectura.excalidraw) (abrir en [excalidraw.com](https://excalidraw.com)).
 
 ---
 
@@ -51,6 +40,8 @@ skylake-databricks/
 ├── tests/
 │   └── sql/                       # Checks de calidad en SQL (silver_checks.sql)
 ├── docs/
+│   ├── arquitectura_excalidraw.jpg # Diagrama general de arquitectura estilo Excalidraw
+│   ├── arquitectura.excalidraw    # Versión vectorial editable (Excalidraw v2)
 │   ├── decisions/                 # Architecture Decision Records (ADRs)
 │   ├── evidence/                  # Capturas y resultados de validación por ticket
 │   └── free-edition-findings.md   # Bitácora técnica de límites y adaptaciones en Free Edition
