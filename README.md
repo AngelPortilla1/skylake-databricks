@@ -61,18 +61,18 @@ skylake-databricks/
 
 ## Reproducción rápida con dataset de muestra (Plan B)
 
-Para reproducir Bronze, Silver y Gold sin depender de la API de OpenSky ni agotar cuota:
+El directorio `data/sample/` incluye **20 snapshots reales** capturados de OpenSky Network sobre América Latina (`states_*.json`, ~3.8 MB) y **2 snapshots compactos del catálogo de aeronaves** (`reference/aircraft/aircraft_2026_11.csv` y `aircraft_2026_12.csv`, con 13,501 aeronaves observadas y 50 cambios de operador para demostrar SCD Tipo 2). Esto permite reproducir **Bronze, Silver y Gold** de punta a punta sin depender de la API de OpenSky ni consumir créditos externos:
 
-1. Configura tus variables de entorno copiando `.env.example` a `.env` con tu `DATABRICKS_HOST` y `DATABRICKS_TOKEN`.
-2. Instala las dependencias de ingesta:
+1. Crea en Databricks el catálogo, schemas y Volume ejecutando `scripts/00_setup_catalog.sql` en el SQL Editor (si es un workspace nuevo).
+2. Configura tus variables de entorno copiando `.env.example` a `.env` con tu `DATABRICKS_HOST` y `DATABRICKS_TOKEN`.
+3. Sincroniza el entorno con `uv` y sube la muestra al Volume `skylake.bronze.landing`:
    ```bash
-   pip install -r requirements-ingest.txt
+   uv sync
+   uv run python scripts/load_sample.py
    ```
-3. Ejecuta el script de carga de muestra (disponible a partir de `SKY-015`):
-   ```bash
-   python scripts/load_sample.py
-   ```
-4. Ejecuta el pipeline `skylake_pipeline` desde Databricks.
+   *(Alternativa sin `uv`: `pip install -r requirements-ingest.txt && python scripts/load_sample.py` exportando antes `DATABRICKS_HOST` y `DATABRICKS_TOKEN`).*
+   - Por defecto, `load_sample.py` es idempotente: solo sube archivos ausentes en el Volume para no sobrescribir datos ya ingeridos. Usa `--overwrite` si deseas forzar la recarga.
+4. Ejecuta el pipeline declarativo `skylake_pipeline` desde **Jobs & Pipelines** en Databricks para poblar todas las tablas de Bronze, Silver y Gold.
 
 ---
 
