@@ -1,0 +1,21 @@
+[project]
+name = "skylake"
+version = "0.1.0"
+description = "Observatorio de tráfico aéreo con Lakehouse en Databricks Free Edition"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "databricks-sdk>=0.30.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.6.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
